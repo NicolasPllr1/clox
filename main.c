@@ -10,6 +10,8 @@ int main(int argc, const char *argv[]) {
   writeChunk(&chunk, OP_CONSTANT, 1);
   writeChunk(&chunk, constant, 1);
 
+  writeChunk(&chunk, OP_NEGATE, 1);
+
   writeChunk(&chunk, OP_RETURN, 2);
 
   interpret(&chunk);
