@@ -17,7 +17,9 @@ OBJECTS := $(addprefix $(BUILD_DIR)/, $(notdir $(SOURCES:.c=.o)))
 
 # Targets ---------------------------------------------------------------------
 
-.PHONY: run all clean
+.PHONY: all run clean
+
+.DEFAULT_GOAL:= all
 
 run: all
 	./clox
