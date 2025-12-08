@@ -1,5 +1,8 @@
 #include "chunk.h"
 #include "scanner.h"
+#ifndef DEBUG_PRINT_CODE
+#include "debug.h"
+#endif
 #include <stdbool.h>
 #include <stdint.h>
 #include <stdio.h>
@@ -103,7 +106,15 @@ static void emitConstant(Value value) {
   emitBytes(OP_CONSTANT, makeConstant(value));
 }
 
-static void endCompiler() { emitReturn(); }
+static void endCompiler() {
+  emitReturn();
+
+#ifndef DEBUG_PRINT_CODE
+  if (!parser.hadError) {
+    disAssembleChunk(currentChunk(), "code");
+  }
+#endif
+}
 
 // Forward declarations
 static void expression();
