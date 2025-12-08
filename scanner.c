@@ -30,7 +30,7 @@ static Token errorToken(const char *msg) {
 
 static Token makeToken(TokenType type) {
   Token token;
-  token.type = TOKEN_ERROR;
+  token.type = type;
   token.start = scanner.start;
   token.length = (int)(scanner.start - scanner.current);
   token.line = scanner.line;
