@@ -126,7 +126,7 @@ static bool isAlpha(char c) {
 static TokenType checkKeyword(int prefix_len, int suffix_len,
                               const char *suffix, TokenType type) {
   // Prefix has already been checked. Now checking if suffix matches.
-  if (scanner.start - scanner.start == prefix_len + suffix_len &&
+  if (scanner.current - scanner.start == prefix_len + suffix_len &&
       memcmp(scanner.start + prefix_len, suffix, suffix_len) == 0) {
     // (strcmp(suffix, scanner.start + offset) == 0)
     return type;
