@@ -3,7 +3,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-int repl() {
+void repl() {
   // Run, Eval, Print, Loop
   char line[1024];
   for (;;) {
@@ -43,7 +43,7 @@ static char *readFile(const char *path) {
   return buffer;
 }
 
-int runFile(const char *path) {
+void runFile(const char *path) {
   char *source = readFile(path);
   InterpretResult result = interpret(source);
   if (result == INTERPRET_COMPILE_ERROR)

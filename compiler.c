@@ -62,7 +62,7 @@ static void errorAt(Token *token, const char *msg) {
 static void errorAtCurrent(const char *msg) { errorAt(&parser.current, msg); }
 static void error(const char *msg) { errorAt(&parser.previous, msg); }
 
-static Token advance() {
+static void advance() {
   parser.previous = parser.current;
 
   for (;;) {
