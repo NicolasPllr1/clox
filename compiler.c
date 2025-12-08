@@ -69,8 +69,8 @@ static void advance() {
     parser.current = scanToken();
     if (parser.current.type != TOKEN_ERROR)
       break;
+    errorAtCurrent(parser.current.start);
   }
-  errorAtCurrent(parser.current.start);
 }
 
 static void consume(TokenType type, const char *msg) {
