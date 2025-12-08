@@ -54,8 +54,10 @@ void runFile(const char *path) {
 
 int main(int argc, const char *argv[]) {
   if (argc == 1) {
+    printf("--- REPL ---\n");
     repl();
   } else if (argc == 2) {
+    printf("--- Running file ---\n");
     runFile(argv[1]);
   } else {
     fprintf(stderr, "Usage: clox [path]\n");
