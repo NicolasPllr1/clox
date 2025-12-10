@@ -9,6 +9,10 @@ Stack-based bytecode interpreter for the Lox language in C.
 This is the second interpreter taught in
 [Crafting Interpreters](https://craftinginterpreters.com/) by Robert Nystrom.
 
+> [!NOTE]
+> I also made the first (tree-walk) interpreter of the book
+> in rust: [rox](https://github.com/NicolasPllr1/rox).
+
 ## Setup
 
 See the [Makefile](./Makefile):
