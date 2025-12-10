@@ -29,7 +29,7 @@ typedef struct {
 
 #define BOOL_VAL(value) ((Value){VAL_BOOL, {.boolean = value}})
 #define NIL_VAL(value) ((Value){VAL_NIL, {.boolean = 0}})
-#define NUMBER_VAL(value) ((Value){VAL_NUMBER, {.boolean = value}})
+#define NUMBER_VAL(value) ((Value){VAL_NUMBER, {.number = value}})
 
 typedef struct {
   int capacity;
