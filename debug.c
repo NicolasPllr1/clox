@@ -36,6 +36,12 @@ int disAssembleInstruction(Chunk *chunk, int offset) {
   switch (instruction) {
   case OP_CONSTANT:
     return constantInstruction("OP_CONSTANT", chunk, offset);
+  case OP_NIL:
+    return constantInstruction("OP_NIL", chunk, offset);
+  case OP_FALSE:
+    return constantInstruction("OP_FALSE", chunk, offset);
+  case OP_TRUE:
+    return constantInstruction("OP_TRUE", chunk, offset);
   case OP_ADD:
     return simpleInstruction("OP_ADD", offset);
   case OP_SUBSTRACT:
