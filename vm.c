@@ -36,6 +36,11 @@ Value pop() {
 
 Value peek(int distance) { return vm.stackTop[-1 - distance]; }
 
+static bool isFalsey(Value value) {
+  // Like in Ruby, only `nil` and `false` are falsey
+  return (IS_NIL(value) || (IS_BOOL(value) && !AS_BOOL(value)));
+}
+
 void initVM() { resetStack(); };
 void freeVM(){};
 
@@ -90,6 +95,9 @@ static InterpretResult run() {
         return INTERPRET_RUNTIME_ERROR;
       }
       push(NUMBER_VAL(-AS_NUMBER(pop())));
+      break;
+    case OP_NOT:
+      push(BOOL_VAL(isFalsey(pop())));
       break;
     case OP_CONSTANT: {
       Value constant = READ_CONSTANT();
