@@ -54,6 +54,12 @@ int disAssembleInstruction(Chunk *chunk, int offset) {
     return simpleInstruction("OP_NEGATE", offset);
   case OP_NOT:
     return simpleInstruction("OP_NOT", offset);
+  case OP_EQUAL:
+    return simpleInstruction("OP_EQUAL", offset);
+  case OP_LESSER:
+    return simpleInstruction("OP_LESSER", offset);
+  case OP_GREATER:
+    return simpleInstruction("OP_GREATER", offset);
   case OP_RETURN:
     return simpleInstruction("OP_RETURN", offset);
   default:

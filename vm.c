@@ -104,6 +104,20 @@ static InterpretResult run() {
       push(constant);
       break;
     }
+    case OP_EQUAL: {
+      Value b = pop();
+      Value a = pop();
+      push(BOOL_VAL(valuesEqual(a, b)));
+      break;
+    }
+    case OP_LESSER: {
+      BINARY_OP(BOOL_VAL, <);
+      break;
+    }
+    case OP_GREATER: {
+      BINARY_OP(BOOL_VAL, >);
+      break;
+    }
     case OP_NIL:
       push(NIL_VAL);
       break;
