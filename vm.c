@@ -2,9 +2,12 @@
 #include "chunk.h"
 #include "debug.h"
 #include "value.h"
+#include "memory.h"
+#include "object.h"
 #include <stdarg.h>
 #include <stdint.h>
 #include <stdio.h>
+#include <string.h>
 
 VM vm;
 
@@ -41,8 +44,27 @@ static bool isFalsey(Value value) {
   return (IS_NIL(value) || (IS_BOOL(value) && !AS_BOOL(value)));
 }
 
-void initVM() { resetStack(); };
-void freeVM(){};
+static void concatenate() {
+  ObjString* b = AS_STRING(pop());
+  ObjString* a = AS_STRING(pop());
+
+  int length = a->length + b->length;
+  char* chars = ALLOCATE(char, length+1);
+  memcpy(chars, a->chars, a->length);
+  memcpy(chars + a->length, b->chars, b->length);
+  chars[length] = '\0';
+
+  ObjString* result = takeString(chars, length);
+  push(OBJ_VAL(result));
+}
+
+void initVM() { 
+  resetStack(); 
+  vm.objects = NULL;
+};
+void freeVM(){
+  freeObjects();
+};
 
 static InterpretResult run() {
 #define READ_BYTE() (*vm.ip++)
@@ -78,7 +100,13 @@ static InterpretResult run() {
       printf("\n");
       return INTERPRET_OK;
     case OP_ADD:
-      BINARY_OP(NUMBER_VAL, +);
+        if (IS_STRING(peek(0)) && IS_STRING(peek(1))) {
+          concatenate();
+        } else if (IS_NUMBER(peek(0)) && IS_NUMBER(peek(1))) {
+          double b = AS_NUMBER(pop());                                               
+          double a = AS_NUMBER(pop());                                               
+          push(NUMBER_VAL(a + b));                                                   
+        }
       break;
     case OP_SUBSTRACT:
       BINARY_OP(NUMBER_VAL, -);
