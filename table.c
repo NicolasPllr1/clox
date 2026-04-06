@@ -7,7 +7,6 @@
 #include "memory.h"
 #include "value.h"
 
-
 void initTable(Table *table) {
   table->count = 0;
   table->capacity = 0;
@@ -19,12 +18,33 @@ void freeTable(Table *table) {
   initTable(table);
 }
 
+/// Assumes the entry key is NULL.
+/// Such entries are either tombstones - boolean (true) values - or empty cells
+/// - nil values.
+static inline bool is_tombstone(Entry* entry) {
+  return IS_BOOL(entry->value);
+}
+
 static inline Entry* findEntry(Entry* entries, int capacity, ObjString* key) {
   uint32_t hash = key->hash;
   uint32_t index = key->hash % capacity;
+  Entry *tombstone = NULL;
+
   for (;;) {
-    Entry* entry = &entries[index];
-    if (entry->key == key || entry->key == NULL) {
+    Entry *entry = &entries[index];
+
+    if (entry->key == NULL) {
+      if (is_tombstone(entry) && tombstone == NULL) {
+        tombstone = entry; // Record the _first_ tombstone we encounter
+      } else {
+        // Found an empty cell.
+        // If a tombstone was found earlier, return it instead.
+        return tombstone == NULL ? entry : tombstone;
+      }
+    }
+    // NOTE: '==' string comparison
+    if (entry->key == key) {
+      // Hit! Target key is found
       return entry;
     }
     index = (index + 1) % capacity;
@@ -42,10 +62,12 @@ static inline void adjust_capacity(Table* table, int new_capacity) {
   for (int i = 0;  i < table->capacity; i++) {
     Entry* entry = &table->entries[i];
     if (entry->key == NULL) continue;
+  table->count = 0;
 
     Entry* dest = findEntry(new_entries, new_capacity, entry->key);
     dest->key = entry->key;
     dest->value = entry->value;
+    table->count++;
   }
 
   FREE_ARRAY(Entry, table->entries, table->capacity);
@@ -62,7 +84,8 @@ bool tableSet(Table* table, ObjString* key, Value value ) {
   }
   Entry *entry = findEntry(table->entries,table->capacity, key);
   bool newEntry = entry->key == NULL;
-  if (newEntry) {
+  bool wasNotTombstone = !is_tombstone(entry);
+  if (newEntry && wasNotTombstone) {
     table->count++;
   }
   entry->key = key;
