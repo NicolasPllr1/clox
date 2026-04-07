@@ -50,7 +50,7 @@ static inline Entry *findEntry(Entry *entries, int capacity, ObjString *key) {
 
 /// Read only search. Looking in the table for the exact `chars` key.
 ObjString *tableFindString(Table *table, const char *chars, int length,
-                           int hash) {
+                           uint32_t hash) {
   if (table->count == 0)
     return NULL;
 
