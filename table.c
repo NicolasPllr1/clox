@@ -24,7 +24,6 @@ void freeTable(Table *table) {
 static inline bool is_tombstone(Entry *entry) { return IS_BOOL(entry->value); }
 
 static inline Entry *findEntry(Entry *entries, int capacity, ObjString *key) {
-  uint32_t hash = key->hash;
   uint32_t index = key->hash % capacity;
   Entry *tombstone = NULL;
 
