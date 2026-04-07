@@ -99,9 +99,11 @@ static InterpretResult run() {
     uint8_t instruction;
     switch (instruction = READ_BYTE()) {
     case OP_RETURN:
+      return INTERPRET_OK;
+    case OP_PRINT:
       printValue(pop());
       printf("\n");
-      return INTERPRET_OK;
+      break;
     case OP_ADD:
       if (IS_STRING(peek(0)) && IS_STRING(peek(1))) {
         concatenate();
