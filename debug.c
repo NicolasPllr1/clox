@@ -56,6 +56,10 @@ int disAssembleInstruction(Chunk *chunk, int offset) {
     return simpleInstruction("OP_NEGATE", offset);
   case OP_NOT:
     return simpleInstruction("OP_NOT", offset);
+  case OP_DEFINE_GLOBAL:
+    return simpleInstruction("OP_DEFINE_GLOBAL", offset);
+  case OP_GET_GLOBAL:
+    return simpleInstruction("OP_GET_GLOBAL", offset);
   case OP_EQUAL:
     return simpleInstruction("OP_EQUAL", offset);
   case OP_LESSER:

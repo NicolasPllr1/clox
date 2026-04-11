@@ -17,6 +17,8 @@ typedef enum {
   OP_NOT,
   OP_GREATER,
   OP_LESSER,
+  OP_DEFINE_GLOBAL,
+  OP_GET_GLOBAL,
   OP_EQUAL,
   OP_PRINT,
   OP_RETURN
